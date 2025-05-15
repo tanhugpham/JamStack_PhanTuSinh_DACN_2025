@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Phần Tử Sinh của Nhóm Zp*</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Sidebar trái -->
+        <div class="sidebar sidebar-left">
+            <div class="info-card">
+                <h4><i class="fas fa-book"></i> Lý thuyết cơ bản</h4>
+                <p>Nhóm nhân Zp* là tập hợp các số nguyên từ 1 đến p-1 với phép toán nhân modulo p.</p>
+                <div class="formula">Zp* = {1, 2, ..., p-1}</div>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-calculator"></i> Công thức quan trọng</h4>
+                <ul class="quick-links">
+                    <li>|Zp*| = p - 1</li>
+                    <li>ord(a) | φ(p)</li>
+                    <li>a^φ(p) ≡ 1 (mod p)</li>
+                    <li>g là phần tử sinh ⟺ ord(g) = φ(p)</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-lightbulb"></i> Mẹo tính toán</h4>
+                <ul class="quick-links">
+                    <li>Kiểm tra số nguyên tố nhanh</li>
+                    <li>Tối ưu tính modulo</li>
+                    <li>Tìm phần tử sinh hiệu quả</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-info-circle"></i> Ứng dụng</h4>
+                <ul class="quick-links">
+                    <li>Mã hóa khóa công khai</li>
+                    <li>Trao đổi khóa Diffie-Hellman</li>
+                    <li>Chữ ký số ElGamal</li>
+                    <li>Mật mã đường cong Elliptic</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Nội dung chính -->
+        <div class="main-content">
+            <div class="container">
+                <div class="main-title">
+                    <h1 class="text-center">
+                        <i class="fas fa-calculator"></i> TÌM HIỂU CÔNG NGHỆ JAMSTACK VÀ XÂY DỰNG ỨNG DỤNG WEB MINH HOẠ BÀI TOÁN TÌM TẤT CẢ CÁC PHẦN TỬ SINH CỦA NHÓM NHÂN ZP*
+                    </h1>
+                </div>
+
+                <div class="step-indicator">
+                    <div class="step-item active" id="step1-indicator">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Kiểm tra số nguyên tố</div>
+                    </div>
+                    <div class="step-item" id="step2-indicator">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Tính cấp phần tử</div>
+                    </div>
+                    <div class="step-item" id="step3-indicator">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Kiểm tra phần tử</div>
+                    </div>
+                    <div class="step-item" id="step4-indicator">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Tính lũy thừa</div>
+                    </div>
+                    <div class="step-item" id="step5-indicator">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Kết quả</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-primary btn-sm mb-3" onclick="openModal()">Tìm hiểu thêm</button>
+
+                <div class="row g-2">
+                    <!-- Bước 1 -->
+                    <div class="col-md-6">
+                        <div class="step-box">
+                            <h3>Bước 1: 🔢 Nhập và kiểm tra số nguyên tố</h3>
+                            <div class="mb-2">
+                                <input type="number" class="form-control form-control-sm" id="primeInput" placeholder="Nhập số nguyên tố p">
+                            </div>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-primary btn-sm" onclick="checkPrime()">Kiểm tra</button>
+                                <button class="btn btn-success btn-sm" onclick="generateRandomPrimeNumber()">Sinh số ngẫu nhiên</button>
+                            </div>
+                            <div class="result-box" id="primeResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bước 2 -->
+                    <div class="col-md-6">
+                        <div class="step-box">
+                            <h3>Bước 2: 📊 Tính cấp của các phần tử</h3>
+                            <button class="btn btn-primary btn-sm" onclick="calculateOrders()">Tính cấp các phần tử</button>
+                            <div class="result-box" id="ordersResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bước 3 -->
+                    <div class="col-md-6">
+                        <div class="step-box">
+                            <h3>Bước 3: Kiểm tra phần tử</h3>
+                            <div class="mb-2">
+                                <input type="number" class="form-control form-control-sm" id="elementInput" placeholder="Nhập g để kiểm tra">
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="checkElement()">Kiểm tra phần tử</button>
+                            <div class="result-box" id="elementResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bước 4 -->
+                    <div class="col-md-6">
+                        <div class="step-box">
+                            <h3>Bước 4: Tính lũy thừa modulo</h3>
+                            <div class="mb-2">
+                                <input type="number" class="form-control form-control-sm" id="powerInput" placeholder="Nhập số mũ k">
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="calculatePower()">Tính g^k mod p</button>
+                            <div class="result-box" id="powerResult"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bước 5 -->
+                    <div class="col-md-12">
+                        <div class="step-box">
+                            <h3>Bước 5: 🎯 Kết quả cuối cùng</h3>
+                            <button class="btn btn-primary btn-sm" onclick="findAllGenerators()">Tìm tất cả phần tử sinh</button>
+                            <div class="result-box" id="finalResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar phải -->
+        <div class="sidebar sidebar-right">
+            <div class="info-card">
+                <h4><i class="fas fa-history"></i> Lịch sử tính toán</h4>
+                <div id="calculation-history">
+                    <p class="text-muted">Chưa có lịch sử tính toán</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-star"></i> Ví dụ tiêu biểu</h4>
+                <ul class="quick-links">
+                    <li>Z7* = {1, 2, 3, 4, 5, 6}</li>
+                    <li>Phần tử sinh của Z7*: 3, 5</li>
+                    <li>φ(7) = 6</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-info-circle"></i> Thông tin thêm</h4>
+                <p>Ứng dụng của phần tử sinh:</p>
+                <ul class="quick-links">
+                    <li>Mã hóa khóa công khai</li>
+                    <li>Trao đổi khóa Diffie-Hellman</li>
+                    <li>Chữ ký số ElGamal</li>
+                    <li>Sinh số ngẫu nhiên</li>
+                    <li>Mật mã đường cong Elliptic</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <h4><i class="fas fa-question-circle"></i> Trợ giúp</h4>
+                <ul class="quick-links">
+                    <li><a href="#" onclick="openGuideModal(); return false;">Hướng dẫn sử dụng</a></li>
+                    <li><a href="#" onclick="openFAQModal(); return false;">Câu hỏi thường gặp</a></li>
+                    <li><a href="#" onclick="openContactModal(); return false;">Liên hệ hỗ trợ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hướng dẫn sử dụng -->
+    <div class="modal fade" id="guideModal" tabindex="-1" aria-labelledby="guideModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="guideModalLabel">
+                        <i class="fas fa-book"></i> Hướng dẫn sử dụng
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="guide-section mb-4">
+                        <h6><i class="fas fa-info-circle"></i> Giới thiệu</h6>
+                        <p>Ứng dụng này giúp bạn tìm tất cả các phần tử sinh trong nhóm nhân Zp*. Quá trình được chia thành 5 bước rõ ràng và dễ thực hiện.</p>
+                    </div>
+
+                    <div class="guide-section mb-4">
+                        <h6><i class="fas fa-list-ol"></i> Các bước thực hiện</h6>
+                        <ol>
+                            <li class="mb-3">
+                                <strong>Bước 1: Nhập và kiểm tra số nguyên tố</strong>
+                                <ul>
+                                    <li>Nhập một số nguyên tố p vào ô input</li>
+                                    <li>Hoặc sử dụng nút "Sinh số ngẫu nhiên" để tạo số ngẫu nhiên</li>
+                                    <li>Nhấn "Kiểm tra" để xác nhận tính nguyên tố</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3">
+                                <strong>Bước 2: Tính cấp các phần tử</strong>
+                                <ul>
+                                    <li>Nhấn nút "Tính cấp các phần tử" để bắt đầu tính toán</li>
+                                    <li>Theo dõi tiến trình qua thanh progress bar</li>
+                                    <li>Kết quả sẽ hiển thị trong bảng có thanh cuộn</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3">
+                                <strong>Bước 3: Kiểm tra phần tử</strong>
+                                <ul>
+                                    <li>Nhập một số g để kiểm tra xem có phải phần tử sinh không</li>
+                                    <li>Kết quả sẽ hiển thị ngay lập tức</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3">
+                                <strong>Bước 4: Tính lũy thừa modulo</strong>
+                                <ul>
+                                    <li>Nhập số mũ k để tính g^k mod p</li>
+                                    <li>Kết quả sẽ hiển thị chi tiết các bước tính</li>
+                                </ul>
+                            </li>
+                            <li class="mb-3">
+                                <strong>Bước 5: Tìm tất cả phần tử sinh</strong>
+                                <ul>
+                                    <li>Nhấn nút "Tìm tất cả phần tử sinh" để bắt đầu</li>
+                                    <li>Theo dõi tiến trình qua thanh progress bar</li>
+                                    <li>Kết quả sẽ hiển thị đầy đủ thống kê và danh sách</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="guide-section">
+                        <h6><i class="fas fa-lightbulb"></i> Mẹo sử dụng</h6>
+                        <ul>
+                            <li>Sử dụng số nguyên tố nhỏ để test trước khi dùng số lớn</li>
+                            <li>Có thể hủy tính toán bằng phím ESC nếu cần</li>
+                            <li>Theo dõi lịch sử tính toán ở sidebar bên phải</li>
+                            <li>Xem các ví dụ tiêu biểu để hiểu rõ hơn</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Câu hỏi thường gặp -->
+    <div class="modal fade" id="faqModal" tabindex="-1" aria-labelledby="faqModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="faqModalLabel">
+                        <i class="fas fa-question-circle"></i> Câu hỏi thường gặp
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Phần tử sinh là gì?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Phần tử sinh là phần tử g trong nhóm Zp* mà có thể sinh ra tất cả các phần tử khác trong nhóm thông qua phép lũy thừa modulo p. Nói cách khác, g là phần tử sinh khi và chỉ khi ord(g) = φ(p).
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Tại sao tính toán đôi khi mất nhiều thời gian?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Thời gian tính toán phụ thuộc vào kích thước của số nguyên tố p. Với p lớn, cần nhiều phép tính modulo và kiểm tra nhiều điều kiện. Chúng tôi đã tối ưu thuật toán và sử dụng Web Worker để không làm treo giao diện.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Làm sao để biết kết quả là chính xác?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Kết quả được kiểm chứng thông qua:
+                                    <ul>
+                                        <li>Kiểm tra tính nguyên tố của p</li>
+                                        <li>Tính cấp của từng phần tử</li>
+                                        <li>Xác nhận điều kiện ord(g) = φ(p)</li>
+                                        <li>So sánh với các ví dụ đã biết</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Có giới hạn về kích thước số nguyên tố không?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Có, để đảm bảo hiệu suất và tránh tràn số:
+                                    <ul>
+                                        <li>Số nguyên tố p phải nằm trong khoảng [2, 50000]</li>
+                                        <li>Khuyến nghị sử dụng p < 10000 để có tốc độ tính toán tốt nhất</li>
+                                        <li>Với p lớn hơn, có thể mất vài giây đến vài phút để tính toán</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Liên hệ hỗ trợ -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">
+                        <i class="fas fa-users"></i> Nhóm phát triển
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="team-members">
+                        <div class="member mb-3">
+                            <h6><i class="fas fa-user-circle"></i> Nguyễn Hải Đăng</h6>
+                            <p class="text-muted mb-0">MSSV: 2033210039</p>
+                        </div>
+                        <div class="member mb-3">
+                            <h6><i class="fas fa-user-circle"></i> Phạm Hữu Thắng</h6>
+                            <p class="text-muted mb-0">MSSV: 2033210275</p>
+                        </div>
+                        <div class="member">
+                            <h6><i class="fas fa-user-circle"></i> Lương Tuyền Phong</h6>
+                            <p class="text-muted mb-0">MSSV: 2033200016</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/main.js"></script>
+    <script src="lib/des.js"></script>
+</body>
+</html> 
